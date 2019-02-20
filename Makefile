@@ -20,8 +20,8 @@ jarfile: $(jarfile)
 tags: $(sources)
 	ctags --extra=fq $(sources)
 
-$(jarfile): manifest $(classes) $(assets)
-	jar cfm $@ manifest $(classes) $(innerclasses) $(assets)
+$(jarfile): $(classes) $(assets)
+	jar cfe $@ $(main) $(classes) $(innerclasses) $(assets)
 
 manifest:
 	echo "Main-class: $(main)" > manifest
