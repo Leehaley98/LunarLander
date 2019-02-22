@@ -5,10 +5,10 @@
 %.class:%.java
 	javac $<
 
-main:=LanderDash
-jarfile:=dashboard.jar
-sources:=$(wildcard *.java)
-assets=led-green.png led-grey.png led-orange.png led-red.png
+main:=Lander
+jarfile:=LunarLander.jar
+sources:=$(wildcard *.java */*.java)
+assets=
 
 classes=$(sources:%.java=%.class)
 innerclasses=$(classes:%.class=%$\*.class)
@@ -20,15 +20,19 @@ jarfile: $(jarfile)
 tags: $(sources)
 	ctags --extra=fq $(sources)
 
-$(jarfile): manifest $(classes) $(assets)
-	jar cfm $@ manifest $(classes) $(innerclasses) $(assets)
+$(jarfile): $(classes) $(assets)
+	jar cfe $@ $(main) $(classes) $(innerclasses) $(assets)
 
 manifest:
 	echo "Main-class: $(main)" > manifest
 
 .PHONY: clean
 clean:
-	rm manifest *.class $(jarfile) tags
+	rm *.class $(jarfile) tags
+
+.PHONY: mostlyclean
+mostlyclean:
+	rm  *.class $(jarfile)
 
 .PHONY: run
 run: $(jarfile)
