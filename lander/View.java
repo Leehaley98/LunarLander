@@ -17,11 +17,11 @@ public class View extends JPanel {
         model.view = this;
     }
 
-    public void paintComponent(Graphics g){
+    public void paintComponent(Graphics g) {
         g.setColor(Color.lightGray);
         g.fillRect(0,0,this.getWidth(), this.getHeight());
 
-        for(int x=0 ; x<model.ground.length ; x++ ){
+        for(int x=0 ; x<model.ground.length ; x++ ) {
             g.setColor(Color.darkGray);
             g.drawLine(x,700, x,model.ground[x]);
         }
@@ -34,7 +34,7 @@ public class View extends JPanel {
     }
 
     Path2D outline = landershape();
-    void drawLander(Graphics g){
+    void drawLander(Graphics g) {
         final int[] x = {-10,-8,8,10};
         final int[] y = {0,-8,-8,0};
         Graphics2D g2d = (Graphics2D)g;
@@ -48,7 +48,7 @@ public class View extends JPanel {
         g2d.draw(outline);
         g2d.setTransform(at);
 
-        if(!model.isflying){
+        if(!model.isflying) {
             if( model.iscrashed ) {
                 g2d.setColor(Color.red);
                 g2d.drawString("Crashed \u26A0", -10,-35);
@@ -58,29 +58,29 @@ public class View extends JPanel {
             }
         }
     }
-    void drawVelocity(Graphics g){
+    void drawVelocity(Graphics g) {
         g.setColor(Color.green.darker());
         g.drawLine(0, 0, (int)model.xdot, (int)model.ydot);
         g.drawString(String.format("%5.1f m/s",model.v),
-                (int)model.xdot, (int)model.ydot);
+                     (int)model.xdot, (int)model.ydot);
     }
-    void drawThrust(Graphics g){
+    void drawThrust(Graphics g) {
         int[] x = {-3,0,+3};
         int[] y = {-2, -2+(int)(model.thrust*10), -2};
         g.setColor(Color.red);
         g.drawPolyline(x,y,3);
     }
-    void drawFuel(Graphics g){
+    void drawFuel(Graphics g) {
         g.setColor(Color.green);
         g.drawLine(-21,0, -21, -(int)model.fuel);
     }
-    void drawAltitude(Graphics g){
+    void drawAltitude(Graphics g) {
         g.setColor(Color.green.darker());
         g.drawLine((int)model.x,(int)model.y, (int)model.x, model.ground[(int)model.x]);
     }
 
 
-    Path2D landershape(){
+    Path2D landershape() {
         GeneralPath s = new GeneralPath();
         s.moveTo(-20,-1);
         s.lineTo(-18,0);

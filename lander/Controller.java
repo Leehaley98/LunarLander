@@ -2,22 +2,22 @@ package lander;
 import java.util.Arrays;
 public class Controller {
     Model lander;
-    public Controller(Model model){
+    public Controller(Model model) {
         lander = model;
     }
 
-    public String handle(String[] message){
+    public String handle(String[] message) {
         String reply = "";
         /* first line of message */
         String[] type = message[0].split(":");
         int lines = message.length; /*count lines after first*/
         String[] payload = Arrays.copyOfRange(message,1,lines);
-        switch( type[0] ){
-            case "command":
-                reply = doCommand(payload);
+        switch( type[0] ) {
+        case "command":
+            reply = doCommand(payload);
             break;
-            case "state":
-                reply = doState(payload);
+        case "state":
+            reply = doState(payload);
             break;
         }
         return reply;
@@ -25,14 +25,14 @@ public class Controller {
 
     String doCommand(String[] content) {
         StringBuffer response = new StringBuffer("command:=\n");
-        for(String line : content){
+        for(String line : content) {
             String[] pair = line.split(":");
-            switch( pair[0] ){
-                case "throttle":
-                    lander.throttle = Double.parseDouble( pair[1] );
+            switch( pair[0] ) {
+            case "throttle":
+                lander.throttle = Double.parseDouble( pair[1] );
                 break;
-                case "roll":
-                    lander.roll = Double.parseDouble( pair[1] );
+            case "roll":
+                lander.roll = Double.parseDouble( pair[1] );
                 break;
             }
         }
@@ -49,14 +49,14 @@ public class Controller {
 
     String doState(String[] content) {
         StringBuffer response = new StringBuffer("state:=\n");
-        for(String line : content){
+        for(String line : content) {
             String[] pair = line.split(":");
-            switch( pair[0] ){
-                case "throttle":
-                    lander.throttle = Double.parseDouble( pair[1] );
+            switch( pair[0] ) {
+            case "throttle":
+                lander.throttle = Double.parseDouble( pair[1] );
                 break;
-                case "roll":
-                    lander.roll = Double.parseDouble( pair[1] );
+            case "roll":
+                lander.roll = Double.parseDouble( pair[1] );
                 break;
             }
         }

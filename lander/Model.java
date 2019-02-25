@@ -34,7 +34,7 @@ public class Model implements ActionListener {
         /* single pass through iterration  */
         thrust = throttle*3/100;
         fuel -= throttle*0.01*dt;
-        if(fuel<0){
+        if(fuel<0) {
             fuel = 0;
             thrust = 0;
         }
@@ -59,7 +59,7 @@ public class Model implements ActionListener {
         altitude = ground[(int)x]-y;
         isflying = altitude>0;
         /* on the ground is it crashed? */
-        if( !isflying ){
+        if( !isflying ) {
             /* if already crashed -- do nothing
             if not crashed, if vel is over 10, that's a crash!
             if not upright that's also a crash.
@@ -67,7 +67,7 @@ public class Model implements ActionListener {
             if( !iscrashed ) iscrashed = (v>10 || Math.abs(O)>15);
         }
 
-        if(!isflying){
+        if(!isflying) {
             y = ground[(int)x];
             ydot = xdot = 0;
             O = 0;
@@ -84,7 +84,7 @@ public class Model implements ActionListener {
         }
     }
 
-    public void reset(){
+    public void reset() {
         x=100;
         y=50;
         O=0;

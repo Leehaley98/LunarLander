@@ -1,4 +1,3 @@
-
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -25,8 +24,17 @@ public class DatagramPanel extends JPanel {
         port = new JTextField(5);
         add(this.port);
     }
-    void setAddress(InetSocketAddress where){
+
+    void setAddress(InetSocketAddress where) {
         addressname.setText(where.getHostString());
         port.setText( Integer.toString(where.getPort()) );
     }
+
+    void setIP(String ip) {
+		addressname.setText(ip);
+    }
+	void setIP(InetAddress adr) {
+		addressname.setText(adr.getHostAddress());
+	}
+	
 }

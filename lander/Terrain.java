@@ -12,10 +12,10 @@ public class Terrain {
         return n;
     }
 
-    static double[] weighted_sum(double[] amplitudes, double[][] noises){
+    static double[] weighted_sum(double[] amplitudes, double[][] noises) {
         int N = noises[0].length;
         double[] sum = new double[N];
-        for(int k=0 ; k<noises.length ; k++){
+        for(int k=0 ; k<noises.length ; k++) {
             for(int x=0 ; x<N ; x++) sum[x] += amplitudes[k]*noises[k][x];
         }
         return sum;
@@ -23,7 +23,7 @@ public class Terrain {
     public static double[] ground(int size, int frequencies) {
         double a[] = new double[frequencies];
         double f[] = new double[frequencies];
-        for(int i=0 ; i<f.length ; i++){
+        for(int i=0 ; i<f.length ; i++) {
             f[i] = i+1;
             a[i] = 1/f[i];
         }
@@ -33,7 +33,7 @@ public class Terrain {
         return ter;
     }
 
-    public static double[] wrapped(double[] gnd){
+    public static double[] wrapped(double[] gnd) {
         double end = (gnd[0]+gnd[gnd.length-1])/2;
         gnd[0] = gnd[gnd.length-1] = end;
         return gnd;

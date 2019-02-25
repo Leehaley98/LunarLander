@@ -1,4 +1,3 @@
-
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -9,7 +8,16 @@ import java.util.*;
 
 public class Lander extends JFrame implements Runnable {
     public static final long serialVersionUID = 2L;
-    public static void main ( String[] args ) throws UnknownHostException {
+
+    static Properties defaults = new Properties();;
+
+    public static void main ( String[] args ) throws UnknownHostException,IOException,ClassNotFoundException {
+
+        defaults.load(Class.forName("Lander").getResourceAsStream("Defaults.properties" ));
+
+        System.out.println("host is "+  defaults.getProperty("host"));
+        System.out.println("listen on "+defaults.getProperty("port"));
+
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
                 new Lander();
@@ -27,17 +35,19 @@ public class Lander extends JFrame implements Runnable {
         Container content = this.getContentPane();
         //content.setLayout(new BorderLayout());
         content.add(connection, BorderLayout.PAGE_START);
+		connection.port.setEditable(false);
+		connection.addressname.setEditable(false);
 
         lander.View moon = new lander.View(lander);
         content.add(moon, BorderLayout.CENTER);
 
         controller = new lander.Controller(lander);
         //this.setContentPane(content);
-        /* add pannel for reset buttons */
+        /* add panel for reset buttons */
         JPanel controls = new JPanel(new FlowLayout());
         JButton reset = new JButton("reset");
-        reset.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent b){
+        reset.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent b) {
                 lander.reset();
             }
         });
@@ -48,33 +58,33 @@ public class Lander extends JFrame implements Runnable {
         this.setVisible(true);
 
         (new javax.swing.Timer((int)(lander.dt*1000),lander)).start();
-        /* start thread that handles comminications */
+        /* start thread that handles communications */
         (new Thread(this)).start();
     }
 
     public void run() {
         try {
-        InetAddress addr = InetAddress.getLocalHost();
-        int portno = 65200;
-        DatagramSocket socket = new DatagramSocket(portno, addr);
-        connection.setAddress((InetSocketAddress)socket.getLocalSocketAddress());
+            InetAddress addr = InetAddress.getLocalHost();
+            int portno = 65200;
+            DatagramSocket socket = new DatagramSocket(portno, addr);
+            connection.setAddress((InetSocketAddress)socket.getLocalSocketAddress());
             while(true) {
                 /* set up socket for reception */
-                if(socket!=null){
-                /* start with fresh datagram packet */
-                byte[] buffer = new byte[1024];
-                DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
-                socket.receive( packet );
-                /* extract message and pick appart into
-                   lines and key:value pairs
-                */
-                String message = new String(packet.getData());
-                String[] lines = message.trim().split("\n");
+                if(socket!=null) {
+                    /* start with fresh datagram packet */
+                    byte[] buffer = new byte[1024];
+                    DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
+                    socket.receive( packet );
+                    /* extract message and pick apart into
+                       lines and key:value pairs
+                    */
+                    String message = new String(packet.getData());
+                    String[] lines = message.trim().split("\n");
 
-                String reply = controller.handle(lines);
-                packet.setData(reply.getBytes());
-                socket.send(packet);
-            }
+                    String reply = controller.handle(lines);
+                    packet.setData(reply.getBytes());
+                    socket.send(packet);
+                }
             }
         }
         catch(Exception e) {
