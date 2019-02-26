@@ -32,7 +32,7 @@ The command message starts with a line
 
         command:
 
-It is followed by a line with an action, either 
+It is followed by action lines, either 
 
         throttle: 34
 
@@ -41,10 +41,29 @@ or
 
         roll: 2.3
 
-Where the number is the roll-rate
+Where the number is the roll-rate in degrees-per-second
 
+####examples
+```
+command:
+throttle: 50
+```
+sets the throttle to 50%
 
-#### reply
+```
+command:
+roll:-4
+```
+sets the roll-rate to -4°/s, which is anti-clockwise.
+
+```
+command:
+throttle:20
+roll:1
+```
+sets both the throttle and roll-rate.
+
+### reply
 the message send back in response is
 
 ```
@@ -60,4 +79,39 @@ Vy:-23,4
 
 All values are formatted as signed floating point numbers, except for `flying`
 and `crashed` with are the integers 0 or 1 indicating a boolean value.
+
+### State message
+The state request message queries the state of the controls, throttle, and
+roll-rate.  The message is
+
+```
+state:
+```
+followed by query lines for the throttle and roll-rate,
+```
+throttle:
+```
+and/or
+```
+roll:
+```
+#### example
+```
+state:
+throttle:
+roll:
+```
+
+### reply
+The reply to the state message is
+```state:=
+```
+with the throttle and/or roll values filled in.
+
+#### example
+```
+state:=
+throttle:20
+roll:1
+```
 
