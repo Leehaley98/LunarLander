@@ -15,9 +15,6 @@ public class Lander extends JFrame implements Runnable {
 
         defaults.load(Class.forName("Lander").getResourceAsStream("Defaults.properties" ));
 
-        System.out.println("host is "+  defaults.getProperty("host"));
-        System.out.println("listen on "+defaults.getProperty("port"));
-
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
                 new Lander();
