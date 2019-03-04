@@ -41,6 +41,7 @@ public class View extends JPanel {
         //g2d.drawString(String.format("(%5.1f,%5.1f)",model.x,model.y), 20, -15);
         //g2d.drawString(String.format("%3.1f\u00B0(%.2f)",model.O,model.roll), 20, -25);
 
+
         AffineTransform at = g2d.getTransform();
         g2d.rotate(Math.toRadians(model.O));
         drawThrust(g);

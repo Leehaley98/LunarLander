@@ -11,7 +11,7 @@ public class Lander extends JFrame implements Runnable {
 
     static Properties defaults = new Properties();;
 
-    public static void main ( String[] args ) throws UnknownHostException,IOException,ClassNotFoundException {
+    public static void main ( String[] args ) throws UnknownHostException, IOException, ClassNotFoundException {
 
         defaults.load(Class.forName("Lander").getResourceAsStream("Defaults.properties" ));
 
@@ -32,8 +32,8 @@ public class Lander extends JFrame implements Runnable {
         Container content = this.getContentPane();
         //content.setLayout(new BorderLayout());
         content.add(connection, BorderLayout.PAGE_START);
-		connection.port.setEditable(false);
-		connection.addressname.setEditable(false);
+        connection.port.setEditable(false);
+        connection.addressname.setEditable(false);
 
         lander.View moon = new lander.View(lander);
         content.add(moon, BorderLayout.CENTER);
@@ -79,6 +79,7 @@ public class Lander extends JFrame implements Runnable {
                     String[] lines = message.trim().split("\n");
 
                     String reply = controller.handle(lines);
+					System.out.println(reply);
                     packet.setData(reply.getBytes());
                     socket.send(packet);
                 }

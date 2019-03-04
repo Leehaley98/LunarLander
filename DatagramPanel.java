@@ -31,18 +31,18 @@ public class DatagramPanel extends JPanel {
     }
 
     void setIP(String ip) {
-		addressname.setText(ip);
+        addressname.setText(ip);
     }
 
-	void setIP(InetAddress adr) {
-		addressname.setText(adr.getHostAddress());
-	}
-	
-	void setPort(int p) {
-		port.setText( Integer.toString( p ) );
-	}
+    void setIP(InetAddress adr) {
+        addressname.setText(adr.getHostAddress());
+    }
 
-	void setPort(String p) {
-		port.setText(p);
-	}
+    void setPort(int p) {
+        port.setText( Integer.toString( p ) );
+    }
+
+    void setPort(String p) {
+        port.setText(p);
+    }
 }

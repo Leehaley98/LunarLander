@@ -30,88 +30,94 @@ The Lander listens for UDP messages on
 ### command message
 The command message starts with a line 
 
-        command:
+        command:!
 
-It is followed by action lines, either 
+It is followed by one or more action lines, either 
 
-        throttle: 34
+        main-engine: 34
 
 Where the number is the throttle percentage to set  
 or  
 
-        roll: 2.3
+        rcs-roll: 2.3
 
-Where the number is the roll-rate in degrees-per-second
+Where the number is the roll-rate in degrees-per-second, +ve is anti-clockwise
 
 ####examples
 ```
 command:
-throttle: 50
+main-engine: 50
 ```
 sets the throttle to 50%
 
 ```
 command:
-roll:-4
+rcs-roll:-4
 ```
 sets the roll-rate to -4°/s, which is anti-clockwise.
 
 ```
 command:
-throttle:20
-roll:1
+main-engine:20
+rcs-roll:1
 ```
 sets both the throttle and roll-rate.
 
-### reply
+#### reply
 the message send back in response is
 
 ```
 command:=
-altitude:34.4
-fuel:33.2
-flying:1
-crashed:0
-orientation:34.2
-Vx:23.2
-Vy:-23,4
 ```
-
-All values are formatted as signed floating point numbers, except for `flying`
-and `crashed` with are the integers 0 or 1 indicating a boolean value.
 
 ### State message
-The state request message queries the state of the controls, throttle, and
-roll-rate.  The message is
+The state request message queries the state of the physics model.
 
 ```
-state:
-```
-followed by query lines for the throttle and roll-rate,
-```
-throttle:
-```
-and/or
-```
-roll:
-```
-#### example
-```
-state:
-throttle:
-roll:
+state:?
 ```
 
-### reply
+#### reply
 The reply to the state message is
 ```state:=
+x:45.6
+y:10.3
+O:5
+x':0.1
+y':-1
+O':+0.01
 ```
-with the throttle and/or roll values filled in.
+Values are the _x_ and _y_ coordinates, the orientation _O_, and the rates of
+change of these values.
 
-#### example
+### Condition
+The condition request queries the server for the status of the lander.
 ```
-state:=
-throttle:20
-roll:1
+condition:?
 ```
 
+#### reply
+The reply to the message is
+```
+condition:=
+fuel:98%
+altitude: 20.7
+contact:flying|down|crashed
+```
+The __contact__ value is one of the three words indicating the state.
+
+### Request Terrain 
+This message requests the terrain below the lander from
+its mapping radar.  This is a limited view of the terrain to a handful of
+points either side of the lander.
+```
+terrain:?
+```
+
+# Reply from server
+```
+terrain:=
+points:10
+data-x: 10.0,15.0,20.0,...
+data-y: 12.4,12.7,13,14.0,...
+```
